@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">적응형 설정</string>
+    <style name="Theme.AdaptiveSettings" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/settings_background</item>
+        <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
+    </style>
+    <color name="settings_background">#F3F5FA</color>
+    <bool name="light_status_bar">true</bool>
+</resources>
