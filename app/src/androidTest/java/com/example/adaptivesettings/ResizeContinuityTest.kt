@@ -1,8 +1,11 @@
 package com.example.adaptivesettings
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.Snapshot
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.InterceptPlatformTextInput
 import androidx.compose.ui.test.DeviceConfigurationOverride
 import androidx.compose.ui.test.ForcedSize
@@ -95,10 +98,15 @@ class ResizeContinuityTest {
 
     private fun showSettingsAt(windowSize: State<DpSize>) {
         compose.setContent {
-            DeviceConfigurationOverride(DeviceConfigurationOverride.ForcedSize(windowSize.value)) {
-                // ForcedSize changes Compose bounds independently of the real keyboard.
-                InterceptPlatformTextInput(interceptor = { _, _ -> awaitCancellation() }) {
-                    SettingsTheme { SettingsScreen() }
+            // Fit the largest viewport once so every frame uses the same pixel-to-dp scale.
+            DeviceConfigurationOverride(DeviceConfigurationOverride.ForcedSize(DpSize(810.dp, 720.dp))) {
+                Box {
+                    Box(Modifier.size(windowSize.value)) {
+                        // Test resize geometry independently of the real keyboard.
+                        InterceptPlatformTextInput(interceptor = { _, _ -> awaitCancellation() }) {
+                            SettingsTheme { SettingsScreen() }
+                        }
+                    }
                 }
             }
         }
