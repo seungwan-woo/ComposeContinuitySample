@@ -3,6 +3,7 @@ package com.example.adaptivesettings
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -22,6 +23,10 @@ import androidx.compose.ui.graphics.Color
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Ask WindowManager to skip the screenshot animation; Compose moves the panes.
+        window.attributes = window.attributes.apply {
+            rotationAnimation = WindowManager.LayoutParams.ROTATION_ANIMATION_JUMPCUT
+        }
         enableEdgeToEdge()
         logConfiguration("onCreate", resources.configuration)
         setContent {
